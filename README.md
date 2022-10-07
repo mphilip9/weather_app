@@ -1,0 +1,1 @@
+One way to render html using react, wrap it in <></>
