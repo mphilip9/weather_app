@@ -76,7 +76,9 @@ input {
   padding: 5px;
   gap: 5px;
   flex-wrap: nowrap;
-  flex: 1 1 0px;
+  flex-basis: 100px;
+  flex-grow: 1;
+  /* flex: 1 1 0px; */
 }
 
 #title {

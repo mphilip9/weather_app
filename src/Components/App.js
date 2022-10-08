@@ -69,7 +69,7 @@ const App = () => {
       </div>
       <div id="search-form">
         <form onSubmit={setLocation}>
-          <label>City:<input type="text" name="name" onChange={handleCity} /></label>
+          <label>City:<input type="text" name="name" onChange={handleCity} value={city} /></label>
           <select onChange={(event) => { setSearchState(event.target.value) }}>
             <option value="AL">Alabama</option>
             <option value="AK">Alaska</option>
