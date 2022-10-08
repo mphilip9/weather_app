@@ -6,6 +6,9 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
+  flex: 1 0 21%;
+  /* explanation below */
+  margin: 5px;
 }
 
 #search-form {
@@ -73,12 +76,14 @@ input {
   padding: 5px;
   gap: 5px;
   flex-wrap: nowrap;
+  flex: 1 1 0px;
 }
 
 #title {
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 1.8em;
 }
 
 body {
@@ -88,10 +93,11 @@ body {
 
 .location {
   padding-bottom: 10px;
+  font-size: 30px;
 }
 
 .temp {
-  font-size: 30px;
+  font-size: 35px;
   font-family: copperplate;
 }
 
@@ -109,4 +115,9 @@ body {
   flex-shrink: 1;
   flex-grow: 1;
   /* or % could be used to ensure a specific layout */
+}
+
+.delete {
+  color: black;
+  background-color: #fd5c63
 }

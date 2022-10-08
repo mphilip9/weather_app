@@ -26,11 +26,17 @@ const addLocation = (weatherObj) => {
 }
 
 const getLocationData = () => {
-  let queryString = 'select location, temperature, description, icon, feelsLike from `weatherData`'
+  let queryString = 'select id, location, temperature, description, icon, feelsLike from `weatherData`'
   return connection.then(conn => conn.query(queryString))
 }
 
+const deleteLocation = (id) => {
+  let queryString = 'delete from `weatherData` where id=(?)';
+  let fields = id;
+  return connection.then(conn => conn.query(queryString, fields))
+}
 
 // exports.connection = connection;
 module.exports.addLocation = addLocation;
 module.exports.getLocationData = getLocationData;
+module.exports.deleteLocation = deleteLocation;
