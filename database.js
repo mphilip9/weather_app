@@ -20,11 +20,17 @@ const connection = mysql.createConnection({ host: 'localhost', user: 'root', dat
 
 
 const addLocation = (weatherObj) => {
-  let queryString = 'insert into `weatherData` (temperature, description, icon, feelsLike) values (?,?,?,?)'
-  let fields = [weatherObj.temperature, weatherObj.description, weatherObj.icon, weatherObj.feelsLike]
+  let queryString = 'insert into `weatherData` (location, temperature, description, icon, feelsLike) values (?,?,?,?,?)'
+  let fields = [weatherObj.location, weatherObj.temperature, weatherObj.description, weatherObj.icon, weatherObj.feelsLike]
   return connection.then(conn => conn.query(queryString, fields))
+}
+
+const getLocationData = () => {
+  let queryString = 'select location, temperature, description, icon, feelsLike from `weatherData`'
+  return connection.then(conn => conn.query(queryString))
 }
 
 
 // exports.connection = connection;
 module.exports.addLocation = addLocation;
+module.exports.getLocationData = getLocationData;

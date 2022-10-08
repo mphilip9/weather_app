@@ -1,6 +1,6 @@
 const express = require("express");
 const axios = require('axios');
-const { addLocation } = require('./database.js')
+const { addLocation, getLocationData } = require('./database.js')
 
 
 const app = express();        //binds the express module to 'app'
@@ -12,36 +12,42 @@ app.use(express.urlencoded())
 
 app.get('/weatherData', (req, res) => {
   console.log('get request successful')
-  // axios.get('https://api.openweathermap.org/data/2.5/weather?lat=44.34&lon=10.99&appid=20d000572593e79f029ffde131aab956').then(data => {
-  //   console.log("Got data from the API call", data.data.weather)
-  //   res.send(data.data)
-  // }).catch(err => {
-  //   console.log('error in the api call', err)
+  // axios.get('http://api.openweathermap.org/geo/1.0/direct?q=trenton,nj,usa&limit=4&appid=20d000572593e79f029ffde131aab956').then(data => {
+  //   console.log(data);
+  // }).catch(error => {
+  //   console.log(error)
   // })
-  // connection.then(conn => conn.query('select * from `weatherData`').then(data => {
-  //   console.log(data)
-  // }))
-  // addLocation().then(data => {
-  //   console.log(data[0]);
-  // })
+  getLocationData().then(data => {
+    // console.log('inside app.get', data[0])
+    res.send(data[0])
+  })
 
 })
 
 app.post('/weatherData', (req, res) => {
-  console.log(req.body);
-  res.send('post request successful')
-  axios.get('https://api.openweathermap.org/data/2.5/weather?lat=44.34&lon=10.99&appid=20d000572593e79f029ffde131aab956').then(data => {
-    console.log("Got data from the API call")
-    let dbData = weatherObj(data.data);
-    console.log(dbData);
-    addLocation(dbData).then(data => {
-      console.log(data[0]);
+  let city = req.body.city.toLowerCase();
+  let state = req.body.state;
+  let country = req.body.country.toLowerCase();
+  axios.get(`http://api.openweathermap.org/geo/1.0/direct?q=${city},${state},${country}&limit=4&appid=20d000572593e79f029ffde131aab956`).then(data => {
+    console.log(data.data[0].lat);
+    axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${data.data[0].lat}&lon=${data.data[0].lon}&appid=20d000572593e79f029ffde131aab956`).then(data => {
+      console.log("Got data from the API call")
+      let dbData = weatherObj(data.data);
+      console.log(dbData);
+      dbData.location = `${city}, ${state}`
+      addLocation(dbData).then(data => {
+        console.log(data[0]);
+      })
+      res.send('post request successful')
+    }).catch(err => {
+      console.log('error in the api call', err)
     })
-
-  }).catch(err => {
-    console.log('error in the api call', err)
+  }).catch(error => {
+    console.log(error)
   })
+  // res.send('temp, delete me')
 })
+
 app.listen(port, function () {
   console.log(`SERVER STARTED ON localhost:${port}`);
 })

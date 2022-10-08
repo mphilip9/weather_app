@@ -6,7 +6,7 @@ use weather;
 
 CREATE TABLE weatherData (
   id int not null auto_increment,
-  -- location varchar(255),
+  location varchar(255),
   temperature int,
   description varchar(255),
   icon varchar(255),
